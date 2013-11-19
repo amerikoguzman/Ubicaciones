@@ -59,14 +59,14 @@
                 </div>
             </div>
             
-            <form class="jumbotron" action="Principal" method="post">
+            <form class="jumbotron" action="Principal" method="POST">
                 <table >
                     <tr>
                         <td>
                           Usuario  
                         </td>
                         <td>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" name="user">
                         </td>
                     </tr>
                     <tr>
@@ -74,7 +74,7 @@
                           Contraseña  
                         </td>
                         <td>
-                           <input type="password" class="form-control">
+                            <input type="password" class="form-control" name="pass">
                         </td>
                     </tr>
                     <tr>
@@ -82,7 +82,7 @@
                           Confirme Contraseña  
                         </td>
                         <td>
-                           <input type="password" class="form-control">
+                            <input type="password" class="form-control" name="pass2">
                         </td>
                     </tr>
                     <tr>
@@ -90,7 +90,7 @@
                           Seleccione Rol
                         </td>
                         <td>
-                            <select class="form-control">
+                            <select class="form-control" name="rol">
                                 <option value = '5'>Administrador</option>
                             </select>
                         </td>

@@ -1,10 +1,25 @@
 <%-- 
-    Document   : alta_usuarios
-    Created on : 16/11/2013, 04:33:16 PM
-    Author     : Americo
+    Document   : index
+    Created on : 27-oct-2013, 20:24:40
+    Author     : amerikillo
 --%>
 
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Clases.*" %>
+
+<%
+
+    HttpSession sesion = request.getSession();
+    String usua = "";
+    if (sesion.getAttribute("usuario") != null) {
+        usua = (String) sesion.getAttribute("usuario");
+    } else {
+        response.sendRedirect("index.jsp");
+    }
+
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,7 +32,7 @@
         <link rel="stylesheet" href="css/cupertino/jquery-ui-1.10.3.custom.css" />
         <link href="css/navbar-fixed-top.css" rel="stylesheet">
         <!---->
-        <title>Alta de Usuarios</title>
+        <title>:: Nombre de la Pagina ::</title>
     </head>
     <body>
         <div class="container">
@@ -59,57 +74,16 @@
                 </div>
             </div>
             
-            <form class="jumbotron" action="Principal" method="POST">
-                <table >
-                    <tr>
-                        <td>
-                          Usuario  
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="user">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                          Contraseña  
-                        </td>
-                        <td>
-                            <input type="password" class="form-control" name="pass">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                          Confirme Contraseña  
-                        </td>
-                        <td>
-                            <input type="password" class="form-control" name="pass2">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                          Seleccione Rol
-                        </td>
-                        <td>
-                            <select class="form-control" name="rol">
-                                <option value = '5'>Administrador</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-block" value="100" name="submit">Guardar</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+            
 
         </div>
     </body>
 </html>
 
+<!-- 
+================================================== -->
+<!-- Se coloca al final del documento para que cargue mas rapido -->
+<!-- Se debe de seguir ese orden al momento de llamar los JS -->
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/jquery-ui-1.10.3.custom.js"></script>

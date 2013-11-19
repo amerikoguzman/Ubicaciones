@@ -6,8 +6,6 @@
 package Clases;
 
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -18,13 +16,20 @@ public class AltaUsuarios {
     ConectionDB con = new ConectionDB();
 
     public void alta(String user, String pass, String pass2, String rol) {
-        if (valida_pass(pass, pass2)) {
-            try {
-                //con.ejecuta("insert into usuarios values('0', '"+user+"',PASSWORD('"+pass+"'),'"+rol+"','1','1')");
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+        try {
+            if (valida_pass(pass, pass2)) {
+                try {
+                    con.ejecuta("insert into usuarios values('0', '" + user + "', '" + user + "',PASSWORD('" + pass + "'),'" + rol + "','1','1')");
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else {
+                System.out.println("Algo mal");
             }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
+
     }
 
     public boolean valida_pass(String pass, String pass2) {

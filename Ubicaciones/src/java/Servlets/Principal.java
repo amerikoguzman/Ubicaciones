@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Servlets;
 
 import java.io.IOException;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Clases.*;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,6 +21,8 @@ import Clases.*;
 public class Principal extends HttpServlet {
 
     AltaUsuarios alta = new AltaUsuarios();
+    Login logueo = new Login();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,11 +35,22 @@ public class Principal extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        HttpSession sesion = request.getSession(true);
         String submit = request.getParameter("submit");
         int accion = Integer.parseInt(submit);
-        switch (accion){
+        switch (accion) {
             case 100://alta de usuarios
-                alta.alta(request.getParameter("user"), request.getParameter("pass"), request.getParameter("pass2"),request.getParameter("rol") );
+                alta.alta(request.getParameter("user"), request.getParameter("pass"), request.getParameter("pass2"), request.getParameter("rol"));
+                response.sendRedirect("alta_usuarios.jsp");
+                break;
+            case 200://alta de usuarios
+                if (logueo.login(request.getParameter("user"), request.getParameter("pass"))) {
+                    sesion.setAttribute("usuario", request.getParameter("user"));
+                    response.sendRedirect("main_menu.jsp");
+                } else {
+                    response.sendRedirect("index.jsp");
+                }
                 break;
         }
         PrintWriter out = response.getWriter();
