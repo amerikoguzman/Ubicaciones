@@ -19,6 +19,7 @@
     }
 
     ConectionDB con = new ConectionDB();
+    Consultas consulta = new Consultas();
     String clave = "", origen = "", desc = "";
     String submit = "";
     try {
@@ -77,20 +78,21 @@
                 </div>
             </div>
             <h4>INGRESE LOS DATOS</h4>
-            <form>
+            <form method="post" name="form_agre1">
                 <table>
                     <tr>
                         <td>Clave</td>
-                        <td><input type="text" class="form-control" placeholder="Origen" autofocus="" name="clave"></td>
+                        <td><input type="text" class="form-control" placeholder="Origen" autofocus name="clave"></td>
                         <td><button class="btn btn-info" value="500" name = "submit">Buscar</button></td>
                     </tr>
                 </table>
             </form>
+            <br>
             <%
                 if (submit != null) {
                     if (submit.equals("500")) {
                         con.conectar();
-                        ResultSet rset = con.consulta("select ori, cla_ins, des_ins from insumo where cla_ins = '" + request.getParameter("clave") + "' ");
+                        ResultSet rset = con.consulta(consulta.qry_clave_descr(request.getParameter("clave")));
                         while (rset.next()) {
                             origen = rset.getString("ori");
                             clave = rset.getString("cla_ins");
@@ -101,53 +103,93 @@
                 }
 
             %>
-            <form>
+            <form action="Principal" name="form_agre2" onsubmit="return validar();" method = "post">
                 <table class="table table-bordered table-hover table-striped">
                     <tr>
                         <td width="13%" colspan="1">
-                            Origen<input type="text" class="form-control" placeholder="Origen" value = "<%=origen%>">
+                            Origen<input type="text" class="form-control" placeholder="Origen" value = "<%=origen%>" name = "origen" id = "origen">
                         </td>
                         <td width="12%" colspan="1">
-                            Clave<input type="text" class="form-control" placeholder="Clave" value = "<%=clave%>">
+                            Clave<input type="text" class="form-control" placeholder="Clave" value = "<%=clave%>" name = "clave" id = "clave">
                         </td>
                         <td colspan="6">
-                            Descripción<input type="text" class="form-control" placeholder="Descripción" value = "<%=desc%>">
+                            Descripción<input type="text" class="form-control" placeholder="Descripción" value = "<%=desc%>" name = "descripcion" id = "descripcion">
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             Sector
-                            <select class="form-control">
-                                <option>Sector Salud</option>    
+                            <select class="form-control" name = "sector">
+                                <%
+                                    try {
+                                        con.conectar();
+                                        ResultSet rset = con.consulta(consulta.qry_sectores());
+                                        while (rset.next()) {
+                                            out.println("<option value ='" + rset.getString("id_sector") + "'>" + rset.getString("sector_des") + "</option>");
+                                        }
+                                        con.cierraConexion();
+                                    } catch (Exception e) {
+                                        con.cierraConexion();
+                                    }
+                                %>  
                             </select>
                         </td>
                         <td colspan="2">
-                            Lote<input type="text" class="form-control" value="-">
+                            Lote
+                            <select class="form-control" name = "lote">
+                                <option value ="-">-</option>
+                                <%
+                                    try {
+                                        con.conectar();
+                                        ResultSet rset = con.consulta(consulta.qry_lote_clave(request.getParameter("clave")));
+                                        while (rset.next()) {
+                                            out.println("<option value ='" + rset.getString("lote") + "'>" + rset.getString("lote") + "</option>");
+                                        }
+                                        con.cierraConexion();
+                                    } catch (Exception e) {
+                                        con.cierraConexion();
+                                    }
+                                %>  
+                            </select>
                         </td>
                         <td colspan="2">
-                            Caducidad<input type="text" class="form-control" id ="caducidad">
+                            Caducidad<input type="text" class="form-control" id ="caducidad" name="caducidad">
                         </td>
                         <td width="23%" colspan="2">
-                            Ubicación<input type="text" class="form-control" value="-">
+                            Ubicación
+                            <select class="form-control" name = "ubicacion">
+                                <%
+                                    try {
+                                        con.conectar();
+                                        ResultSet rset = con.consulta(consulta.qry_ubicaciones());
+                                        while (rset.next()) {
+                                            out.println("<option value ='" + rset.getString("id_ubi") + "'>" + rset.getString("des_ubi") + "</option>");
+                                        }
+                                        con.cierraConexion();
+                                    } catch (Exception e) {
+                                        con.cierraConexion();
+                                    }
+                                %>  
+                            </select>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            Cajas<input type="text" class="form-control" value = "0">
+                            Cajas<input type="text" class="form-control" value = "0" name ="cajas" id ="cajas" onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Piezas<input type="text" class="form-control" value = "0">
+                            Piezas<input type="text" class="form-control" value = "0" name = "piezas" id ="piezas"  onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Resto<input type="text" class="form-control" value = "0">
+                            Resto<input type="text" class="form-control" value = "0" name = "resto" id ="resto"  onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Cantidad<input type="text" class="form-control" value = "0">
+                            Cantidad<input type="text" class="form-control" value = "0" name = "cantidad" readonly="" id ="cantidad" onkeyup="sumar();">
                         </td>
                     </tr>
                     <tr>
                         <td colspan="8">
-                            <button class="btn btn-primary btn-block">Guardar</button>
+                            <button type="submit" value = "501" name = "submit" class="btn btn-primary btn-block">Guardar</button>
                         </td>
                     </tr>
                 </table>
@@ -193,11 +235,6 @@
         </div>
     </body>
 </html>
-<script>
-    $(function() {
-        $("#caducidad").datepicker();
-    });
-</script>
 <!-- 
 ================================================== -->
 <!-- Se coloca al final del documento para que cargue mas rapido -->
@@ -205,3 +242,28 @@
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/jquery-ui-1.10.3.custom.js"></script>
+
+<script>
+                                $(function() {
+                                    $("#caducidad").datepicker();
+                                    $("#caducidad").datepicker('option', {dateFormat: 'dd/mm/yy'});
+                                });
+</script>
+<script>
+    function sumar() {
+        cajas = parseInt(document.form_agre2.cajas.value);
+        piezas = parseInt(document.form_agre2.piezas.value);
+        resto = parseInt(document.form_agre2.resto.value);
+        cantidad = (cajas * piezas) + resto;
+        document.form_agre2.cantidad.value = cantidad;
+    }
+
+    function validar() {
+        clave = document.form_agre2.clave.value;
+        if (clave.length == 0) {
+            alert("Datos Incompletos");
+            return false;
+        }
+        return true;
+    }
+</script>
