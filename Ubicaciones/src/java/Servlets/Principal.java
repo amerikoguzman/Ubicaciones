@@ -44,7 +44,7 @@ public class Principal extends HttpServlet {
                 alta.alta(request.getParameter("user"), request.getParameter("pass"), request.getParameter("pass2"), request.getParameter("rol"));
                 response.sendRedirect("alta_usuarios.jsp");
                 break;
-            case 200://alta de usuarios
+            case 200://login
                 String rol = logueo.login(request.getParameter("user"), request.getParameter("pass"));
                 if (rol!=null) {
                     sesion.setAttribute("usuario", request.getParameter("user"));

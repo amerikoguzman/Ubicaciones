@@ -50,7 +50,7 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="#">Consultas</a></li>
-                            <li><a href="#about">Agregar una Clave al Inventario</a></li>
+                            <li><a href="agregar_clave.jsp">Agregar una Clave al Inventario</a></li>
                             <li><a href="#about">Catálogo</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <b class="caret"></b></a>

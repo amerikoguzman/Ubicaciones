@@ -18,6 +18,14 @@
         response.sendRedirect("index.jsp");
     }
 
+    ConectionDB con = new ConectionDB();
+    String clave = "", origen = "", desc = "";
+    String submit = "";
+    try {
+        submit = request.getParameter("submit");
+    } catch (Exception e) {
+        submit = "";
+    }
 %>
 
 <!DOCTYPE html>
@@ -36,7 +44,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Consultas</h1>
+            <h1>Agregar Clave al Inventario</h1>
             <div class="navbar navbar-default">
                 <div class="container">
                     <div class="navbar-header">
@@ -68,29 +76,82 @@
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
-            <table class="table table-bordered table-bordered">
-                <tr>
-                    <td colspan="3"><h3>Introduzca Clave para localizarla dentro del Almacén</h3></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" class="form-control" placeholder="Ubicacion" autofocus="">
-                        <button class="btn btn-block btn-info">Ubicación</button>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" placeholder="Clave">
-                        <button class="btn btn-block btn-info">Clave</button>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" placeholder="Lote">
-                        <button class="btn btn-block btn-info">Lote</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn-block btn-success">Por Ubicar</button></td>
-                    <td><button class="btn btn-block btn-success">Todos</button></td>
-                </tr>
-            </table>
+            <h4>INGRESE LOS DATOS</h4>
+            <form>
+                <table>
+                    <tr>
+                        <td>Clave</td>
+                        <td><input type="text" class="form-control" placeholder="Origen" autofocus="" name="clave"></td>
+                        <td><button class="btn btn-info" value="500" name = "submit">Buscar</button></td>
+                    </tr>
+                </table>
+            </form>
+            <%
+                if (submit != null) {
+                    if (submit.equals("500")) {
+                        con.conectar();
+                        ResultSet rset = con.consulta("select ori, cla_ins, des_ins from insumo where cla_ins = '" + request.getParameter("clave") + "' ");
+                        while (rset.next()) {
+                            origen = rset.getString("ori");
+                            clave = rset.getString("cla_ins");
+                            desc = rset.getString("des_ins");
+                        }
+                        con.cierraConexion();
+                    }
+                }
+
+            %>
+            <form>
+                <table class="table table-bordered table-hover table-striped">
+                    <tr>
+                        <td width="13%" colspan="1">
+                            Origen<input type="text" class="form-control" placeholder="Origen" value = "<%=origen%>">
+                        </td>
+                        <td width="12%" colspan="1">
+                            Clave<input type="text" class="form-control" placeholder="Clave" value = "<%=clave%>">
+                        </td>
+                        <td colspan="6">
+                            Descripción<input type="text" class="form-control" placeholder="Descripción" value = "<%=desc%>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Sector
+                            <select class="form-control">
+                                <option>Sector Salud</option>    
+                            </select>
+                        </td>
+                        <td colspan="2">
+                            Lote<input type="text" class="form-control" value="-">
+                        </td>
+                        <td colspan="2">
+                            Caducidad<input type="text" class="form-control" id ="caducidad">
+                        </td>
+                        <td width="23%" colspan="2">
+                            Ubicación<input type="text" class="form-control" value="-">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Cajas<input type="text" class="form-control" value = "0">
+                        </td>
+                        <td colspan="2">
+                            Piezas<input type="text" class="form-control" value = "0">
+                        </td>
+                        <td colspan="2">
+                            Resto<input type="text" class="form-control" value = "0">
+                        </td>
+                        <td colspan="2">
+                            Cantidad<input type="text" class="form-control" value = "0">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <button class="btn btn-primary btn-block">Guardar</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
             <table class="table table-bordered table-bordered">
                 <tr>
                     <td>ID</td>
@@ -124,7 +185,7 @@
                 </tr>
             </table>
         </div>
-                            <br><br><br>
+        <br><br><br>
         <div class="navbar navbar-fixed-bottom navbar-inverse">
             <div class="text-center text-muted">
                 GNK Logística<span class="glyphicon glyphicon-registration-mark"></span>
@@ -132,7 +193,11 @@
         </div>
     </body>
 </html>
-
+<script>
+    $(function() {
+        $("#caducidad").datepicker();
+    });
+</script>
 <!-- 
 ================================================== -->
 <!-- Se coloca al final del documento para que cargue mas rapido -->
