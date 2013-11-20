@@ -45,10 +45,13 @@ public class Principal extends HttpServlet {
                 response.sendRedirect("alta_usuarios.jsp");
                 break;
             case 200://alta de usuarios
-                if (logueo.login(request.getParameter("user"), request.getParameter("pass"))) {
+                String rol = logueo.login(request.getParameter("user"), request.getParameter("pass"));
+                if (rol!=null) {
                     sesion.setAttribute("usuario", request.getParameter("user"));
+                    sesion.setAttribute("rol", rol);
                     response.sendRedirect("main_menu.jsp");
                 } else {
+                    sesion.setAttribute("mensaje", "Datos incorrectos");
                     response.sendRedirect("index.jsp");
                 }
                 break;

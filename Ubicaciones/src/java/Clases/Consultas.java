@@ -12,13 +12,8 @@ package Clases;
 public class Consultas {
 
     String query;
-
-    public String obtiene_unidades() {
-        query = "select des_uni from unidades";
-        return query;
-    }
     
-    public String total_juris(String juris){
+    public String cons_todos(String juris){
         query = "select sum(can_sur) from juris where juris = '"+juris+"'";
         return query;
     }

@@ -13,26 +13,28 @@ import java.sql.SQLException;
 public class Login {
     ConectionDB con = new ConectionDB();
     
-    public boolean login(String user, String pass){
-        boolean valido=false;
-        if (this.valida(user, pass)){
-            valido=true;
+    public String login(String user, String pass){
+        String rol = this.valida(user, pass);
+        System.out.println(rol);
+        if (!rol.equals("")){
+            System.out.println("Entra");
+            return (rol);
         }
-        return valido;
+        return null;
     }
     
-    private boolean valida(String user, String pass){
-        boolean valido=false;
+    private String valida(String user, String pass){
+        String rol="";
         try{
             con.conectar();
-            ResultSet rset = con.consulta("select id_usu from usuarios where user = '"+user+"' and pass = PASSWORD('"+pass+"') and rol='5'");
+            ResultSet rset = con.consulta("select rol from usuarios where user = '"+user+"' and pass = PASSWORD('"+pass+"')");
             while(rset.next()){
-                valido=true;
+                rol = rset.getString("rol");
             }
             con.cierraConexion();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return valido;
+        return rol;
     }
 }
