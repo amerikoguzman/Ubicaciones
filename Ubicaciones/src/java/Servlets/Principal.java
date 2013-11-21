@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Clases.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -20,8 +23,12 @@ import javax.servlet.http.HttpSession;
  */
 public class Principal extends HttpServlet {
 
+    java.text.DateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
+    java.text.DateFormat df2 = new java.text.SimpleDateFormat("dd/MM/yyyy");
+
     AltaUsuarios alta = new AltaUsuarios();
     Login logueo = new Login();
+    Modificaciones_Inven inven = new Modificaciones_Inven();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,7 +53,7 @@ public class Principal extends HttpServlet {
                 break;
             case 200://login
                 String rol = logueo.login(request.getParameter("user"), request.getParameter("pass"));
-                if (rol!=null) {
+                if (rol != null) {
                     sesion.setAttribute("usuario", request.getParameter("user"));
                     sesion.setAttribute("rol", rol);
                     response.sendRedirect("main_menu.jsp");
@@ -54,6 +61,44 @@ public class Principal extends HttpServlet {
                     sesion.setAttribute("mensaje", "Datos incorrectos");
                     response.sendRedirect("index.jsp");
                 }
+                break;
+            case 501:
+                try {
+                    inven.insertar_registro(
+                            request.getParameter("id_detins"),
+                            request.getParameter("clave"),
+                            request.getParameter("lote"),
+                            df.format(df2.parse(request.getParameter("caducidad"))),
+                            "2013-01-01",
+                            "1",
+                            request.getParameter("sector"),
+                            request.getParameter("ubicacion"),
+                            request.getParameter("cantidad"),
+                            request.getParameter("piezas"),
+                            (String) sesion.getAttribute("usuario"));
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                response.sendRedirect("agregar_clave.jsp");
+                break;
+            case 502:
+                try {
+                    inven.modificar_registro(
+                            request.getParameter("id_detins"),
+                            request.getParameter("clave"),
+                            request.getParameter("lote"),
+                            df.format(df2.parse(request.getParameter("caducidad"))),
+                            "2013-01-01",
+                            "1",
+                            request.getParameter("sector"),
+                            request.getParameter("ubicacion"),
+                            request.getParameter("cantidad"),
+                            request.getParameter("piezas"),
+                            (String) sesion.getAttribute("usuario"));
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                response.sendRedirect("editar_clave.jsp?id_detins="+request.getParameter("id_detins"));
                 break;
         }
         PrintWriter out = response.getWriter();

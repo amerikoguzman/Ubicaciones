@@ -8,6 +8,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Clases.*" %>
 
+<%java.text.DateFormat df = new java.text.SimpleDateFormat("yyyyMMddhhmmss"); %>
+<%java.text.DateFormat df2 = new java.text.SimpleDateFormat("yyyy-MM-dd"); %>
+<%java.text.DateFormat df3 = new java.text.SimpleDateFormat("dd/MM/yyyy"); %>
 <%
 
     HttpSession sesion = request.getSession();
@@ -17,7 +20,8 @@
     } else {
         response.sendRedirect("index.jsp");
     }
-
+    ConectionDB con = new ConectionDB();
+    Consultas consulta = new Consultas();
 %>
 
 <!DOCTYPE html>
@@ -88,13 +92,17 @@
                 </tr>
                 <tr>
                     <td><button class="btn btn-block btn-success">Por Ubicar</button></td>
-                    <td><button class="btn btn-block btn-success">Todos</button></td>
+                    <td>
+                        <form method="post">
+                            <button class="btn btn-block btn-success" name="submit" value = "401">Todos</button>
+                        </form>
+                    </td>
                 </tr>
             </table>
             <table class="table table-bordered table-bordered">
                 <tr>
-                    <td>ID</td>
-                    <td>Modificar</td>
+                    <td></td>
+                    <td></td>
                     <td>Clave</td>
                     <td>Lote</td>
                     <td>Descripción</td>
@@ -107,24 +115,51 @@
                     <td>Existencia</td>
                     <td>Total de Cajas</td>
                 </tr>
+                <%
+                    try {
+                        con.conectar();
+                        ResultSet rset = null;
+                        if (request.getParameter("submit").equals("401")) {
+                            rset = con.consulta(consulta.qry_main_todos());
+                        }
+                        while (rset.next()) {
+                %>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><a href="det_cla.jsp?id_detins=<%=rset.getString("di.id_detins")%>" class="btn btn-success"><span class="glyphicon glyphicon-zoom-in"></span></a></td>
+                    <td><a href="editar_clave.jsp?id_detins=<%=rset.getString("di.id_detins")%>" class="btn btn-danger"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><%=rset.getString("cla_ins")%></td>
+                    <td><%=rset.getString("lote")%></td>
+                    <td><%=rset.getString("des_ins")%></td>
+                    <td><%=df3.format(df2.parse(rset.getString("caducidad")))%></td>
+                    <td><%=rset.getString("des_ubi")%></td>
+                    <td><%=rset.getString("sector_des")%></td>
+                    <%
+                    int cant = Integer.parseInt(rset.getString("cant"));
+                    int cant_caj = Integer.parseInt(rset.getString("cant_caja"));
+                    int caj=cant/cant_caj;
+                    int resto=cant%cant_caj;
+                    int caj_t=0;
+                    if(resto>0){
+                        caj_t=caj+1;
+                    }else{
+                        caj_t=caj;
+                    }
+                    %>
+                    <td><%=caj%></td>
+                    <td><%=cant_caj%></td>
+                    <td><%=resto%></td>
+                    <td><%=cant%></td>
+                    <td><%=caj_t%></td>
                 </tr>
+                <%
+                        }
+                        con.cierraConexion();
+                    } catch (Exception e) {
+                    }
+                %>
             </table>
         </div>
-                            <br><br><br>
+        <br><br><br>
         <div class="navbar navbar-fixed-bottom navbar-inverse">
             <div class="text-center text-muted">
                 GNK Logística<span class="glyphicon glyphicon-registration-mark"></span>

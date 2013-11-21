@@ -23,7 +23,6 @@
 
     ConectionDB con = new ConectionDB();
     Consultas consulta = new Consultas();
-    String clave = "", origen = "", desc = "";
     String submit = "";
     try {
         submit = request.getParameter("submit");
@@ -48,7 +47,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Agregar Clave al Inventario</h1>
+            <h1>Modificacion de Insumo</h1>
             <div class="navbar navbar-default">
                 <div class="container">
                     <div class="navbar-header">
@@ -80,48 +79,47 @@
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
-            <h4>INGRESE LOS DATOS</h4>
-            <form method="post" name="form_agre1">
-                <table>
-                    <tr>
-                        <td>Clave</td>
-                        <td><input type="text" class="form-control" placeholder="Clave" autofocus name="clave"></td>
-                        <td><button class="btn btn-info" value="500" name = "submit">Buscar</button></td>
-                    </tr>
-                </table>
-            </form>
+            <h4>MODIFIQUE LOS DATOS</h4>
             <br>
             <%
-                if (submit != null) {
-                    if (submit.equals("500")) {
-                        con.conectar();
-                        ResultSet rset = con.consulta(consulta.qry_clave_descr(request.getParameter("clave")));
-                        while (rset.next()) {
-                            origen = rset.getString("ori");
-                            clave = rset.getString("cla_ins");
-                            desc = rset.getString("des_ins");
-                        }
-                        con.cierraConexion();
+                String ori = "", clave = "", descr = "", sector = "", lote = "", caducidad = "", ubi = "", id_ubi="", cajas = "", cant_cajas = "";
+                try {
+                    con.conectar();
+                    ResultSet rset = con.consulta(consulta.qry_modi_claves(request.getParameter("id_detins")));
+                    while (rset.next()) {
+                        ori = rset.getString("i.ori");
+                        clave = rset.getString("di.cla_ins");
+                        descr = rset.getString("i.des_ins");
+                        sector = rset.getString("s.sector_des");
+                        lote = rset.getString("di.lote");
+                        caducidad = rset.getString("di.caducidad");
+                        ubi = rset.getString("u.des_ubi");
+                        id_ubi = rset.getString("di.id_ubi");
+                        cajas = rset.getString("di.cant");
+                        cant_cajas = rset.getString("di.cant_caja");
                     }
+                    con.cierraConexion();
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                    con.cierraConexion();
                 }
-
             %>
-            <form action="Principal" name="form_agre2" onsubmit="return validar();" method = "post">
-                <table class="table table-bordered table-striped">
+            <form action="Principal" name="form_agre2" onsubmit="return validar();" method = "GET">
+                <table class="table table-bordered table-hover table-striped">
                     <tr>
                         <td colspan="8">
-                            <input type="text" class="hidden" placeholder="Origen" readonly name="id_detins" value="<%=df.format(new java.util.Date())%>">
+                            <input type="text" class="form-control" placeholder="Origen" readonly name="id_detins" value="<%=request.getParameter("id_detins")%>">
                         </td>
                     </tr>
                     <tr>
                         <td width="13%" colspan="1">
-                            Origen<input type="text" class="form-control" placeholder="Origen" value = "<%=origen%>" name = "origen" id = "origen" readonly="">
+                            Origen<input type="text" class="form-control" placeholder="Origen" value = "<%=ori%>" name = "origen" id = "origen" readonly="">
                         </td>
                         <td width="12%" colspan="1">
                             Clave<input type="text" class="form-control" placeholder="Clave" value = "<%=clave%>" name = "clave" id = "clave" readonly="">
                         </td>
                         <td colspan="6">
-                            Descripción<input type="text" class="form-control" placeholder="Descripción" value = "<%=desc%>" name = "descripcion" id = "descripcion" readonly="">
+                            Descripción<input type="text" class="form-control" placeholder="Descripción" value = "<%=descr%>" name = "descripcion" id = "descripcion" readonly="">
                         </td>
                     </tr>
                     <tr>
@@ -139,14 +137,14 @@
                                     } catch (Exception e) {
                                         con.cierraConexion();
                                     }
-                                %>  
+                                %>
                             </select>
                         </td>
                         <td colspan="2">
                             Lote
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="lote" id ="lote" value="-">
+                                    <input type="text" class="form-control" name="lote" id ="lote" value="<%=lote%>">
                                 </div>
                                 <div class="col-sm-6">
                                     <select class="form-control" id ="lote2" name="lote2" onChange="cambia_lote();">
@@ -154,7 +152,7 @@
                                         <%
                                             try {
                                                 con.conectar();
-                                                ResultSet rset = con.consulta(consulta.qry_lote_clave(request.getParameter("clave")));
+                                                ResultSet rset = con.consulta(consulta.qry_lote_clave(clave));
                                                 while (rset.next()) {
                                                     out.println("<option value ='" + rset.getString("lote") + "'>" + rset.getString("lote") + "</option>");
                                                 }
@@ -166,18 +164,18 @@
                                     </select>
                                 </div>
                             </div>
-
                         </td>
                         <td colspan="2">
-                            Caducidad<input type="text" class="form-control" id ="caducidad" name="caducidad">
+                            Caducidad<input type="text" class="form-control" name="caducidad" placeholder = "<%=df3.format(df2.parse(caducidad))%>"  id ="caducidad">
                         </td>
                         <td width="23%" colspan="2">
                             Ubicación
-                            <select class="form-control" name = "ubicacion">
+                            <select class="form-control" name = "ubicacion" >
+                                <option value = "<%=id_ubi%>"><%=ubi%></option>
                                 <%
                                     try {
                                         con.conectar();
-                                        ResultSet rset = con.consulta(consulta.qry_ubicaciones("-"));
+                                        ResultSet rset = con.consulta(consulta.qry_ubicaciones(ubi));
                                         while (rset.next()) {
                                             out.println("<option value ='" + rset.getString("id_ubi") + "'>" + rset.getString("des_ubi") + "</option>");
                                         }
@@ -185,88 +183,39 @@
                                     } catch (Exception e) {
                                         con.cierraConexion();
                                     }
-                                %>  
+                                %> 
                             </select>
                         </td>
                     </tr>
+                    <%
+                        int caj = Integer.parseInt(cajas);
+                        int can_caj = Integer.parseInt(cant_cajas);
+
+                        int icajas = caj / can_caj;
+                        int resto = caj % can_caj;
+                    %>
                     <tr>
                         <td colspan="2">
-                            Cajas<input type="text" class="form-control" value = "0" name ="cajas" id ="cajas" onkeyup="sumar();">
+                            Cajas<input type="text" class="form-control" value = "<%=icajas%>" name ="cajas" id ="cajas" onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Piezas<input type="text" class="form-control" value = "0" name = "piezas" id ="piezas"  onkeyup="sumar();">
+                            Piezas<input type="text" class="form-control" value = "<%=can_caj%>" name = "piezas" id ="piezas"  onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Resto<input type="text" class="form-control" value = "0" name = "resto" id ="resto"  onkeyup="sumar();">
+                            Resto<input type="text" class="form-control" value = "<%=resto%>" name = "resto" id ="resto"  onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Cantidad<input type="text" class="form-control" value = "0" name = "cantidad" readonly="" id ="cantidad" onkeyup="sumar();">
+                            Cantidad<input type="text" class="form-control" value = "<%=caj%>" name = "cantidad" readonly="" id ="cantidad" onkeyup="sumar();">
                         </td>
                     </tr>
                     <tr>
                         <td colspan="8">
-                            <button type="submit" value = "501" name = "submit" class="btn btn-primary btn-block">Guardar</button>
+                            <button type="submit" value = "502" name = "submit" class="btn btn-primary btn-block">Guardar</button>
                         </td>
                     </tr>
                 </table>
             </form>
-            <table class="table table-bordered table-striped">
-                <tr>
-                    <td width="4%"></td>
-                    <td width="5%">Clave</td>
-                    <td width="5%">Lote</td>
-                    <td width="26%">Descripción</td>
-                    <td width="8%">Caducidad</td>
-                    <td width="7%">Ubicación</td>
-                    <td width="7%">Sector</td>
-                    <td width="10%">Cajas Completas</td>
-                    <td width="7%">Pzs x Cajas</td>
-                    <td width="5%">Resto</td>
-                    <td width="7%">Existencia</td>
-                    <td width="9%">Total de Cajas</td>
-                </tr>
-                <%
-                    try {
-                        con.conectar();
-                        ResultSet rset = con.consulta(consulta.qry_alta_claves((String) sesion.getAttribute("usuario")));
-                        while (rset.next()) {
-                %>
-                <tr>
-                    <td><a href="editar_clave.jsp?id_detins=<%=rset.getString("di.id_detins")%>" class="btn btn-danger"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                    <td><%=rset.getString("di.cla_ins")%></td>
-                    <td><%=rset.getString("di.lote")%></td>
-                    <td><%=rset.getString("i.des_ins")%></td>
-                    <td><%=df3.format(df2.parse(rset.getString("di.caducidad")))%></td>
-                    <td><%=rset.getString("u.des_ubi")%></td>
-                    <td><%=rset.getString("s.sector_des")%></td>
-                    <%
-                        int cant = Integer.parseInt(rset.getString("di.cant"));
-                        int cant_caja = Integer.parseInt(rset.getString("di.cant_caja"));
 
-                        int cajas = cant / cant_caja;
-                        int resto = cant % cant_caja;
-                        int cajas_tot = 0;
-                        if (resto > 0) {
-                            cajas_tot = cajas + 1;
-                        } else {
-                            cajas_tot = cajas;
-                        }
-                    %>
-                    <td><%=cajas%></td>
-                    <td><%=cant_caja%></td>
-                    <td><%=resto%></td>
-                    <td><%=cant%></td>
-                    <td><%=cajas_tot%></td>
-                </tr>
-                <%
-                        }
-                        con.cierraConexion();
-                    } catch (Exception e) {
-                        con.cierraConexion();
-                    }
-                %>
-
-            </table>
         </div>
         <br><br><br>
         <div class="navbar navbar-fixed-bottom navbar-inverse">
@@ -284,31 +233,32 @@
 <script src="js/bootstrap.js"></script>
 <script src="js/jquery-ui-1.10.3.custom.js"></script>
 
+
 <script>
-                                $(function() {
-                                    $("#caducidad").datepicker();
-                                    $("#caducidad").datepicker('option', {dateFormat: 'dd/mm/yy'});
-                                });
+                                function validar() {
+                                    clave = document.form_agre2.clave.value;
+                                    cad = document.form_agre2.caducidad.value;
+                                    if (clave.length == 0 || cad.length == 0) {
+                                        window.alert("Datos Incompletos");
+                                        return false;
+                                    }
+                                    return true;
+                                }
+                                function sumar() {
+                                    cajas = parseInt(document.form_agre2.cajas.value);
+                                    piezas = parseInt(document.form_agre2.piezas.value);
+                                    resto = parseInt(document.form_agre2.resto.value);
+                                    cantidad = (cajas * piezas) + resto;
+                                    document.form_agre2.cantidad.value = cantidad;
+                                }
+                                function cambia_lote() {
+                                    lote = document.form_agre2.lote2.value;
+                                    document.form_agre2.lote.value = lote;
+                                }
 </script>
-<script type="text/javascript">
-    function validar() {
-        clave = document.form_agre2.clave.value;
-        cad = document.form_agre2.caducidad.value;
-        if (clave.length == 0 || cad.length == 0) {
-            window.alert("Datos Incompletos");
-            return false;
-        }
-        return true;
-    }
-    function sumar() {
-        cajas = parseInt(document.form_agre2.cajas.value);
-        piezas = parseInt(document.form_agre2.piezas.value);
-        resto = parseInt(document.form_agre2.resto.value);
-        cantidad = (cajas * piezas) + resto;
-        document.form_agre2.cantidad.value = cantidad;
-    }
-    function cambia_lote() {
-        lote = document.form_agre2.lote2.value;
-        document.form_agre2.lote.value = lote;
-    }
+<script>
+    $(function() {
+        $("#caducidad").datepicker();
+        $("#caducidad").datepicker('option', {dateFormat: 'dd/mm/yy'});
+    });
 </script>
