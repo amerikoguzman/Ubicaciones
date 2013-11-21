@@ -78,23 +78,33 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="text" class="form-control" placeholder="Ubicacion" autofocus="">
-                        <button class="btn btn-block btn-info">Ubicación</button>
+                        <form method="post">
+                            <input type="text" class="form-control" placeholder="Ubicacion" name ="ubicacion" autofocus="">
+                            <button class="btn btn-block btn-info" name="submit" value = "401">Ubicación</button>
+                        </form>
                     </td>
                     <td>
-                        <input type="text" class="form-control" placeholder="Clave">
-                        <button class="btn btn-block btn-info">Clave</button>
+                        <form method="post">
+                            <input type="text" class="form-control" placeholder="Clave" name = "clave">
+                            <button class="btn btn-block btn-info" name="submit" value = "402">Clave</button>
+                        </form>
                     </td>
                     <td>
-                        <input type="text" class="form-control" placeholder="Lote">
-                        <button class="btn btn-block btn-info">Lote</button>
+                        <form method="post">
+                            <input type="text" class="form-control" placeholder="Lote" name = "lote">
+                            <button class="btn btn-block btn-info" name="submit" value = "403">Lote</button>
+                        </form>
                     </td>
                 </tr>
                 <tr>
-                    <td><button class="btn btn-block btn-success">Por Ubicar</button></td>
                     <td>
                         <form method="post">
-                            <button class="btn btn-block btn-success" name="submit" value = "401">Todos</button>
+                            <button class="btn btn-block btn-success" name="submit" value = "404">Por Ubicar</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <button class="btn btn-block btn-success" name="submit" value = "405">Todos</button>
                         </form>
                     </td>
                 </tr>
@@ -120,6 +130,18 @@
                         con.conectar();
                         ResultSet rset = null;
                         if (request.getParameter("submit").equals("401")) {
+                            rset = con.consulta(consulta.qry_main_ubicacion(request.getParameter("ubicacion")));
+                        }
+                        if (request.getParameter("submit").equals("402")) {
+                            rset = con.consulta(consulta.qry_main_clave(request.getParameter("clave")));
+                        }
+                        if (request.getParameter("submit").equals("403")) {
+                            rset = con.consulta(consulta.qry_main_lote(request.getParameter("lote")));
+                        }
+                        if (request.getParameter("submit").equals("404")) {
+                            rset = con.consulta(consulta.qry_main_porubicar());
+                        }
+                        if (request.getParameter("submit").equals("405")) {
                             rset = con.consulta(consulta.qry_main_todos());
                         }
                         while (rset.next()) {
@@ -134,16 +156,16 @@
                     <td><%=rset.getString("des_ubi")%></td>
                     <td><%=rset.getString("sector_des")%></td>
                     <%
-                    int cant = Integer.parseInt(rset.getString("cant"));
-                    int cant_caj = Integer.parseInt(rset.getString("cant_caja"));
-                    int caj=cant/cant_caj;
-                    int resto=cant%cant_caj;
-                    int caj_t=0;
-                    if(resto>0){
-                        caj_t=caj+1;
-                    }else{
-                        caj_t=caj;
-                    }
+                        int cant = Integer.parseInt(rset.getString("cant"));
+                        int cant_caj = Integer.parseInt(rset.getString("cant_caja"));
+                        int caj = cant / cant_caj;
+                        int resto = cant % cant_caj;
+                        int caj_t = 0;
+                        if (resto > 0) {
+                            caj_t = caj + 1;
+                        } else {
+                            caj_t = caj;
+                        }
                     %>
                     <td><%=caj%></td>
                     <td><%=cant_caj%></td>

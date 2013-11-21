@@ -31,7 +31,7 @@ public class Modificaciones_Inven {
     ) throws SQLException {
         try {
             con.conectar();
-            con.ejecuta("insert into det_insumo values ('" + det_ins + "','" + cla_ins + "','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "')");
+            con.ejecuta("insert into det_insumo values ('" + det_ins + "','" + cla_ins + "','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','1')");
             con.ejecuta("insert into registro values( '0','" + this.id_usu(usuario) + "', '"+det_ins+"','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','INSERCION',NOW() )");
             con.cierraConexion();
         } catch (SQLException e) {
@@ -55,7 +55,7 @@ public class Modificaciones_Inven {
     ) throws SQLException {
         try {
             con.conectar();
-            con.ejecuta("update det_insumo set cla_ins = '" + cla_ins + "', lote = '" + lote + "', caducidad = '" + caducidad + "', fec_fab = '" + fec_fab + "', id_fab = '" + id_fab + "', id_sec = '" + id_sec + "', id_ubi = '" + id_ubi + "', cant = '" + cant + "', cant_caja='" + cant_caja + "' where id_detins = '" + det_ins + "'");
+            con.ejecuta("update det_insumo set cla_ins = '" + cla_ins + "', lote = '" + lote + "', caducidad = '" + caducidad + "', fec_fab = '" + fec_fab + "', id_fab = '" + id_fab + "', id_sec = '" + id_sec + "', id_ubi = '" + id_ubi + "', cant = '" + cant + "', cant_caja='" + cant_caja + "' where id_detins = '" + det_ins + "','1'");
             con.ejecuta("insert into registro values( '0','" + this.id_usu(usuario) + "', '"+det_ins+"','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','MODIFICACION',NOW() )");
             con.cierraConexion();
         } catch (SQLException e) {

@@ -82,4 +82,64 @@ public class Consultas {
         System.out.println(query);
         return query;
     }
+    
+    public String qry_main_ubicacion(String ubicacion) {
+        query = "SELECT di.id_detins, di.cla_ins, di.lote, i.des_ins, di.caducidad, u.des_ubi, s.sector_des, di.cant, di.id_ubi, di.cant_caja\n"
+                + "from det_insumo di, insumo i, ubicaciones u, sectores s, registro r, usuarios us\n"
+                + "WHERE\n"
+                + "di.cla_ins = i.cla_ins and\n"
+                + "di.id_ubi = u.id_ubi AND\n"
+                + "di.id_sec = s.id_sector and\n"
+                + "di.id_detins = r.id_detins AND\n"
+                + "r.idUsuario = us.id_usu AND u.id_ubi = '"+ubicacion+"' and\n"
+                + "i.status != '0'\n"
+                + ";";
+        System.out.println(query);
+        return query;
+    }
+    
+    public String qry_main_clave(String clave) {
+        query = "SELECT di.id_detins, di.cla_ins, di.lote, i.des_ins, di.caducidad, u.des_ubi, s.sector_des, di.cant, di.id_ubi, di.cant_caja\n"
+                + "from det_insumo di, insumo i, ubicaciones u, sectores s, registro r, usuarios us\n"
+                + "WHERE\n"
+                + "di.cla_ins = i.cla_ins and\n"
+                + "di.id_ubi = u.id_ubi AND\n"
+                + "di.id_sec = s.id_sector and\n"
+                + "di.id_detins = r.id_detins AND\n"
+                + "r.idUsuario = us.id_usu AND di.cla_ins = '"+clave+"' and\n"
+                + "i.status != '0'\n"
+                + ";";
+        System.out.println(query);
+        return query;
+    }
+    
+    public String qry_main_lote(String lote) {
+        query = "SELECT di.id_detins, di.cla_ins, di.lote, i.des_ins, di.caducidad, u.des_ubi, s.sector_des, di.cant, di.id_ubi, di.cant_caja\n"
+                + "from det_insumo di, insumo i, ubicaciones u, sectores s, registro r, usuarios us\n"
+                + "WHERE\n"
+                + "di.cla_ins = i.cla_ins and\n"
+                + "di.id_ubi = u.id_ubi AND\n"
+                + "di.id_sec = s.id_sector and\n"
+                + "di.id_detins = r.id_detins AND\n"
+                + "r.idUsuario = us.id_usu AND di.lote = '"+lote+"' and\n"
+                + "i.status != '0'\n"
+                + ";";
+        System.out.println(query);
+        return query;
+    }
+    
+    public String qry_main_porubicar() {
+        query = "SELECT di.id_detins, di.cla_ins, di.lote, i.des_ins, di.caducidad, u.des_ubi, s.sector_des, di.cant, di.id_ubi, di.cant_caja\n"
+                + "from det_insumo di, insumo i, ubicaciones u, sectores s, registro r, usuarios us\n"
+                + "WHERE\n"
+                + "di.cla_ins = i.cla_ins and\n"
+                + "di.id_ubi = u.id_ubi AND\n"
+                + "di.id_sec = s.id_sector and\n"
+                + "di.id_detins = r.id_detins AND\n"
+                + "r.idUsuario = us.id_usu AND u.id_ubi = '1000' and\n"
+                + "i.status != '0'\n"
+                + ";";
+        System.out.println(query);
+        return query;
+    }
 }
