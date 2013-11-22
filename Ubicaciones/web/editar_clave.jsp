@@ -17,6 +17,9 @@
     String usua = "";
     if (sesion.getAttribute("usuario") != null) {
         usua = (String) sesion.getAttribute("usuario");
+        if (sesion.getAttribute("usuario").equals("1")){
+            response.sendRedirect("main_menu.jsp");
+        }
     } else {
         response.sendRedirect("index.jsp");
     }
@@ -60,17 +63,30 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Consultas</a></li>
-                            <li><a href="#about">Agregar una Clave al Inventario</a></li>
-                            <li><a href="#about">Catálogo</a></li>
+                            <li class="active"><a href="main_menu.jsp">Consultas</a></li>
+                            <li><a href="catalogo.jsp" target="_blank">Catálogo</a></li>
+                            <li><a href="historial.jsp" target="_blank">Kardex</a></li>
+                                <%
+                                    if (!sesion.getAttribute("rol").equals("1")) {
+                                %>
+                            <li><a href="agregar_clave.jsp">Agregar una Clave al Inventario</a></li>
+                                <%
+                                    if (!sesion.getAttribute("rol").equals("2")) {
+                                %>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Altas</a></li>
-                                    <li><a href="#">Bajas</a></li>
-                                    <li><a href="#">Modificaciones</a></li>
+                                    <li><a href="alta_usuarios.jsp">Altas</a></li>
+                                    <li><a href="modi_usuario.jsp">Modificaciones</a></li>
                                 </ul>
                             </li>
+                            <%
+                                }
+                            %>
+                            <%
+                                }
+                            %>
+
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href=""><span class="glyphicon glyphicon-user"></span> <%=usua%></a></li>

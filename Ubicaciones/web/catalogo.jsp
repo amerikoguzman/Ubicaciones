@@ -194,10 +194,14 @@
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="main_menu.jsp">Consultas</a></li>
                             <li><a href="catalogo.jsp" target="_blank">Catálogo</a></li>
+                            <li><a href="historial.jsp" target="_blank">Kardex</a></li>
                                 <%
                                     if (!sesion.getAttribute("rol").equals("1")) {
                                 %>
                             <li><a href="agregar_clave.jsp">Agregar una Clave al Inventario</a></li>
+                                <%
+                                    if (!sesion.getAttribute("rol").equals("2")) {
+                                %>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -205,6 +209,9 @@
                                     <li><a href="modi_usuario.jsp">Modificaciones</a></li>
                                 </ul>
                             </li>
+                            <%
+                                }
+                            %>
                             <%
                                 }
                             %>

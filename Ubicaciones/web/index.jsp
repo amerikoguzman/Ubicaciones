@@ -3,8 +3,10 @@
     Created on : 11/11/2013, 11:27:20 AM
     Author     : CEDIS NAY 1
 --%>
-
+<%@page import="java.util.Date"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Clases.*" %>
 
 <%
     HttpSession sesion = request.getSession();
@@ -12,6 +14,8 @@
     if (sesion.getAttribute("mensaje") != null) {
         mensaje = (String) sesion.getAttribute("mensaje");
     }
+    ConectionDB con = new ConectionDB();
+    Consultas consulta = new Consultas();
 %>
 
 <!DOCTYPE html>
@@ -48,12 +52,25 @@
 
             <form class="form-signin" action="Principal" method="POST">
                 <h2 class="form-signin-heading">Ingrese sus Datos</h2>
-                <input type="text" class="form-control" placeholder="Usuario" name="user" required autofocus>
+                <select name="user" class="form-control">
+                    <%
+                        try {
+con.conectar();
+ResultSet rset = con.consulta(consulta.qry_eliminar_usuarios());
+while(rset.next()){
+    out.println("<option value = "+rset.getString("user")+">"+rset.getString("user")+"</option>");
+}
+con.cierraConexion();
+                        } catch (Exception e) {
+con.cierraConexion();
+                        }
+                    %>
+                </select>
                 <input type="password" class="form-control" placeholder="Contraseña" name="pass" required>
                 <%
-                if(!mensaje.equals("")){
-                    out.println("<div class='alert alert-warning'>Datos Incorretos</div>");
-                }
+                    if (!mensaje.equals("")) {
+                        out.println("<div class='alert alert-warning'>Datos Incorretos</div>");
+                    }
                 %>
                 <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="200">Entrar</button>
             </form>
