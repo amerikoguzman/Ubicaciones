@@ -28,6 +28,7 @@ public class Principal extends HttpServlet {
 
     AltaUsuarios alta = new AltaUsuarios();
     Login logueo = new Login();
+    CodigoBarras cb = new CodigoBarras();
     Modificaciones_Inven inven = new Modificaciones_Inven();
 
     /**
@@ -129,6 +130,10 @@ public class Principal extends HttpServlet {
                         System.out.println(ex.getMessage());
                     }
                     response.sendRedirect("main_menu.jsp");
+                    break;
+                case 600://********************modificacion de usuarios********************
+                    cb.actualza_CB(request.getParameter("id"), request.getParameter("cb"));
+                    response.sendRedirect("agregar_codigo.jsp?id="+request.getParameter("id"));
                     break;
             }
             PrintWriter out = response.getWriter();
