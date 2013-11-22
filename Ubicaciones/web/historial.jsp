@@ -87,7 +87,7 @@
             <form method="get">
                 <table class="table table-bordered table-bordered">
                     <tr>
-                        <td colspan="6"><h3>Seleccione los parametros de filtrado</h3></td>
+                        <td colspan="7"><h3>Seleccione los parametros de filtrado</h3></td>
                     </tr>
                     <tr>
                         <td>
