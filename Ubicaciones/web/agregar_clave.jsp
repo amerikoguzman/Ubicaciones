@@ -57,25 +57,31 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Sistema de Ubicaciones</a>
+                        <a class="navbar-brand" href="#">Sistemas de Ubicaciones</a>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Consultas</a></li>
-                            <li><a href="#about">Agregar una Clave al Inventario</a></li>
-                            <li><a href="#about">Catálogo</a></li>
+                            <li class="active"><a href="main_menu.jsp">Consultas</a></li>
+                            <li><a href="catalogo.jsp" target="_blank">Catálogo</a></li>
+                                <%
+                                    if (!sesion.getAttribute("rol").equals("1")) {
+                                %>
+                            <li><a href="agregar_clave.jsp">Agregar una Clave al Inventario</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Altas</a></li>
-                                    <li><a href="#">Bajas</a></li>
-                                    <li><a href="#">Modificaciones</a></li>
+                                    <li><a href="alta_usuarios.jsp">Altas</a></li>
+                                    <li><a href="modi_usuario.jsp">Modificaciones</a></li>
                                 </ul>
                             </li>
+                            <%
+                                }
+                            %>
+
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href=""><span class="glyphicon glyphicon-user"></span> <%=usua%></a></li>
-                            <li class="active"><a href="../navbar/"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                            <li class="active"><a href="index.jsp"><span class="glyphicon glyphicon-log-out"></span></a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>

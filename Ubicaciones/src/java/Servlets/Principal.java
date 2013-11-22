@@ -41,70 +41,103 @@ public class Principal extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession sesion = request.getSession(true);
-        String submit = request.getParameter("submit");
-        int accion = Integer.parseInt(submit);
-        switch (accion) {
-            case 100://alta de usuarios
-                alta.alta(request.getParameter("user"), request.getParameter("pass"), request.getParameter("pass2"), request.getParameter("rol"));
-                response.sendRedirect("alta_usuarios.jsp");
-                break;
-            case 200://login
-                String rol = logueo.login(request.getParameter("user"), request.getParameter("pass"));
-                if (rol != null) {
-                    sesion.setAttribute("usuario", request.getParameter("user"));
-                    sesion.setAttribute("rol", rol);
-                    response.sendRedirect("main_menu.jsp");
-                } else {
-                    sesion.setAttribute("mensaje", "Datos incorrectos");
-                    response.sendRedirect("index.jsp");
-                }
-                break;
-            case 501:
-                try {
-                    inven.insertar_registro(
-                            request.getParameter("id_detins"),
-                            request.getParameter("clave"),
-                            request.getParameter("lote"),
-                            df.format(df2.parse(request.getParameter("caducidad"))),
-                            "2013-01-01",
-                            "1",
-                            request.getParameter("sector"),
-                            request.getParameter("ubicacion"),
-                            request.getParameter("cantidad"),
-                            request.getParameter("piezas"),
-                            (String) sesion.getAttribute("usuario"));
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-                response.sendRedirect("agregar_clave.jsp");
-                break;
-            case 502:
-                try {
-                    inven.modificar_registro(
-                            request.getParameter("id_detins"),
-                            request.getParameter("clave"),
-                            request.getParameter("lote"),
-                            df.format(df2.parse(request.getParameter("caducidad"))),
-                            "2013-01-01",
-                            "1",
-                            request.getParameter("sector"),
-                            request.getParameter("ubicacion"),
-                            request.getParameter("cantidad"),
-                            request.getParameter("piezas"),
-                            (String) sesion.getAttribute("usuario"));
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-                response.sendRedirect("editar_clave.jsp?id_detins="+request.getParameter("id_detins"));
-                break;
-        }
-        PrintWriter out = response.getWriter();
         try {
-        } finally {
-            out.close();
+            response.setContentType("text/html;charset=UTF-8");
+
+            HttpSession sesion = request.getSession(true);
+            String submit = request.getParameter("submit");
+            int accion = Integer.parseInt(submit);
+            switch (accion) {
+                case 100://********************alta de usuarios********************
+                    alta.alta(request.getParameter("user"), request.getParameter("pass"), request.getParameter("pass2"), request.getParameter("rol"));
+                    response.sendRedirect("alta_usuarios.jsp");
+                    break;
+                case 101://********************baja de usuarios********************
+                    System.out.println("Eliminar Usuario");
+                    alta.elimina_usuario(request.getParameter("usuario"));
+                    response.sendRedirect("modi_usuario.jsp");
+                    break;
+                case 102://********************modificacion de usuarios********************
+                    alta.modifica_usuario(request.getParameter("usuario"), request.getParameter("pass"), request.getParameter("pass2"), request.getParameter("rol"));
+                    response.sendRedirect("modi_usuario.jsp");
+                    break;
+                case 200://********************login********************
+                    String rol = logueo.login(request.getParameter("user"), request.getParameter("pass"));
+                    if (rol != null) {
+                        sesion.setAttribute("usuario", request.getParameter("user"));
+                        sesion.setAttribute("rol", rol);
+                        response.sendRedirect("main_menu.jsp");
+                    } else {
+                        sesion.setAttribute("mensaje", "Datos incorrectos");
+                        response.sendRedirect("index.jsp");
+                    }
+                    break;
+                case 501://******************Altas de clave********************
+                    try {
+                        inven.insertar_registro(
+                                request.getParameter("id_detins"),
+                                request.getParameter("clave"),
+                                request.getParameter("lote"),
+                                df.format(df2.parse(request.getParameter("caducidad"))),
+                                "2013-01-01",
+                                "1",
+                                request.getParameter("sector"),
+                                request.getParameter("ubicacion"),
+                                request.getParameter("cantidad"),
+                                request.getParameter("piezas"),
+                                (String) sesion.getAttribute("usuario"));
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    response.sendRedirect("agregar_clave.jsp");
+                    break;
+                case 502://********************Modificar clave********************
+                    try {
+                        inven.modificar_registro(
+                                request.getParameter("id_detins"),
+                                request.getParameter("clave"),
+                                request.getParameter("lote"),
+                                df.format(df2.parse(request.getParameter("caducidad"))),
+                                "2013-01-01",
+                                "1",
+                                request.getParameter("sector"),
+                                request.getParameter("ubicacion"),
+                                request.getParameter("cantidad"),
+                                request.getParameter("piezas"),
+                                (String) sesion.getAttribute("usuario"));
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    response.sendRedirect("editar_clave.jsp?id_detins=" + request.getParameter("id_detins"));
+                    break;
+                case 503://********************Eliminar clave********************
+                    System.out.println("Eliminar");
+                    try {
+                        inven.eliminar_registro(
+                                request.getParameter("id_detins"),
+                                request.getParameter("clave"),
+                                request.getParameter("lote"),
+                                df.format(df2.parse(request.getParameter("caducidad"))),
+                                "2013-01-01",
+                                "1",
+                                request.getParameter("sector"),
+                                request.getParameter("ubicacion"),
+                                request.getParameter("cantidad"),
+                                request.getParameter("piezas"),
+                                (String) sesion.getAttribute("usuario"));
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    response.sendRedirect("main_menu.jsp");
+                    break;
+            }
+            PrintWriter out = response.getWriter();
+            try {
+            } finally {
+                out.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

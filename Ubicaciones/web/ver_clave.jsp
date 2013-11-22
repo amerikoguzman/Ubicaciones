@@ -47,7 +47,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Modificacion de Insumo</h1>
+            <h1>Visualización de Insumo</h1>
             <div class="navbar navbar-default">
                 <div class="container">
                     <div class="navbar-header">
@@ -61,8 +61,8 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="#">Consultas</a></li>
-                            <li><a href="#about">Agregar una Clave al Inventario</a></li>
                             <li><a href="#about">Catálogo</a></li>
+                            <li><a href="#about">Agregar una Clave al Inventario</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -79,7 +79,7 @@
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
-            <h4>MODIFIQUE LOS DATOS</h4>
+            <h4>VER LOS DATOS</h4>
             <br>
             <%
                 String ori = "", clave = "", descr = "", sector = "", lote = "", caducidad = "2013-01-01", ubi = "", id_ubi = "", cajas = "", cant_cajas = "";
@@ -144,7 +144,7 @@
                             Lote
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="lote" id ="lote" value="<%=lote%>">
+                                    <input type="text" class="form-control" name="lote" readonly id ="lote" value="<%=lote%>">
                                 </div>
                                 <div class="col-sm-6">
                                     <select class="form-control" id ="lote2" name="lote2" onChange="cambia_lote();">
@@ -166,7 +166,7 @@
                             </div>
                         </td>
                         <td colspan="2">
-                            Caducidad<input id ="cadu" type="text" class="form-control" name="caducidad" value = "<%=(df3.format(df2.parse(caducidad)))%>">
+                            Caducidad<input id ="cadu" type="text" class="form-control" name="caducidad" readonly value = "<%=(df3.format(df2.parse(caducidad)))%>">
                         </td>
                         <td width="23%" colspan="2">
                             Ubicación
@@ -196,26 +196,16 @@
                     %>
                     <tr>
                         <td colspan="2">
-                            Cajas<input type="text" class="form-control" value = "<%=icajas%>" name ="cajas" id ="cajas" onkeyup="sumar();">
+                            Cajas<input type="text" class="form-control" value = "<%=icajas%>" name ="cajas" id ="cajas" readonly onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Piezas<input type="text" class="form-control" value = "<%=can_caj%>" name = "piezas" id ="piezas"  onkeyup="sumar();">
+                            Piezas<input type="text" class="form-control" value = "<%=can_caj%>" name = "piezas" id ="piezas" readonly onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Resto<input type="text" class="form-control" value = "<%=resto%>" name = "resto" id ="resto"  onkeyup="sumar();">
+                            Resto<input type="text" class="form-control" value = "<%=resto%>" name = "resto" id ="resto" readonly  onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Cantidad<input type="text" class="form-control" value = "<%=caj%>" name = "cantidad" readonly="" id ="cantidad" onkeyup="sumar();">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="8">
-                            <button type="submit" value = "502" name = "submit" class="btn btn-primary btn-block">Guardar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="8">
-                            <button type="submit" value = "503" name = "submit" class="btn btn-danger btn-block">Eliminar</button>
+                            Cantidad<input type="text" class="form-control" value = "<%=caj%>" name = "cantidad" readonly="" id ="cantidad" onkeyup="sumar();" readonly>
                         </td>
                     </tr>
                 </table>

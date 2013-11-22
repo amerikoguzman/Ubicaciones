@@ -22,6 +22,11 @@ public class Consultas {
         query = "select ori, cla_ins, des_ins from insumo where cla_ins = '" + clave + "'";
         return query;
     }
+    
+    public String qry_eliminar_usuarios() {
+        query = "select id_usu, user from usuarios where status != '0'";
+        return query;
+    }
 
     public String qry_sectores() {
         query = "select id_sector, sector_des from sectores";
@@ -48,8 +53,8 @@ public class Consultas {
                 + "di.id_detins = r.id_detins AND\n"
                 + "r.idUsuario = us.id_usu AND\n"
                 + "i.status != '0' and\n"
-                + "us.user = '"+user+"'\n"
-                + ";";
+                + "us.user = '"+user+"' and di.status != '0'\n"
+                + "order by u.des_ubi;";
         return query;
     }
     
@@ -64,7 +69,7 @@ public class Consultas {
                 + "r.idUsuario = us.id_usu AND\n"
                 + "i.status != '0' and\n"
                 + "di.id_detins = '"+det_ins+"'\n"
-                + ";";
+                + "and di.status!='0' order by u.des_ubi;";
         return query;
     }
     
@@ -77,8 +82,8 @@ public class Consultas {
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
                 + "r.idUsuario = us.id_usu AND\n"
-                + "i.status != '0'\n"
-                + ";";
+                + "di.status != '0'\n"
+                + "order by u.des_ubi;";
         System.out.println(query);
         return query;
     }
@@ -92,8 +97,8 @@ public class Consultas {
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
                 + "r.idUsuario = us.id_usu AND u.id_ubi = '"+ubicacion+"' and\n"
-                + "i.status != '0'\n"
-                + ";";
+                + "di.status != '0'\n"
+                + "order by u.des_ubi;";
         System.out.println(query);
         return query;
     }
@@ -107,8 +112,8 @@ public class Consultas {
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
                 + "r.idUsuario = us.id_usu AND di.cla_ins = '"+clave+"' and\n"
-                + "i.status != '0'\n"
-                + ";";
+                + "di.status != '0'\n"
+                + "order by u.des_ubi;";
         System.out.println(query);
         return query;
     }
@@ -122,8 +127,8 @@ public class Consultas {
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
                 + "r.idUsuario = us.id_usu AND di.lote = '"+lote+"' and\n"
-                + "i.status != '0'\n"
-                + ";";
+                + "di.status != '0'\n"
+                + "order by u.des_ubi;";
         System.out.println(query);
         return query;
     }
@@ -137,8 +142,8 @@ public class Consultas {
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
                 + "r.idUsuario = us.id_usu AND u.id_ubi = '1000' and\n"
-                + "i.status != '0'\n"
-                + ";";
+                + "di.status != '0'\n"
+                + "order by u.des_ubi;";
         System.out.println(query);
         return query;
     }

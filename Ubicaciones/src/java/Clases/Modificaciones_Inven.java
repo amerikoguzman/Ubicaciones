@@ -32,7 +32,7 @@ public class Modificaciones_Inven {
         try {
             con.conectar();
             con.ejecuta("insert into det_insumo values ('" + det_ins + "','" + cla_ins + "','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','1')");
-            con.ejecuta("insert into registro values( '0','" + this.id_usu(usuario) + "', '"+det_ins+"','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','INSERCION',NOW() )");
+            con.ejecuta("insert into registro values( '0','" + this.id_usu(usuario) + "', '" + det_ins + "','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','INSERCION',NOW() )");
             con.cierraConexion();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -53,12 +53,35 @@ public class Modificaciones_Inven {
             String cant_caja,
             String usuario
     ) throws SQLException {
+        System.out.println("update det_insumo set cla_ins = '" + cla_ins + "', lote = '" + lote + "', caducidad = '" + caducidad + "', fec_fab = '" + fec_fab + "', id_fab = '" + id_fab + "', id_sec = '" + id_sec + "', id_ubi = '" + id_ubi + "', cant = '" + cant + "', cant_caja='" + cant_caja + "' where id_detins = '" + det_ins + "'");
         try {
             con.conectar();
-            con.ejecuta("update det_insumo set cla_ins = '" + cla_ins + "', lote = '" + lote + "', caducidad = '" + caducidad + "', fec_fab = '" + fec_fab + "', id_fab = '" + id_fab + "', id_sec = '" + id_sec + "', id_ubi = '" + id_ubi + "', cant = '" + cant + "', cant_caja='" + cant_caja + "' where id_detins = '" + det_ins + "','1'");
-            con.ejecuta("insert into registro values( '0','" + this.id_usu(usuario) + "', '"+det_ins+"','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','MODIFICACION',NOW() )");
+            con.ejecuta("update det_insumo set cla_ins = '" + cla_ins + "', lote = '" + lote + "', caducidad = '" + caducidad + "', fec_fab = '" + fec_fab + "', id_fab = '" + id_fab + "', id_sec = '" + id_sec + "', id_ubi = '" + id_ubi + "', cant = '" + cant + "', cant_caja='" + cant_caja + "' where id_detins = '" + det_ins + "'");
+            con.ejecuta("insert into registro values( '0','" + this.id_usu(usuario) + "', '" + det_ins + "','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','MODIFICACION',NOW() )");
             con.cierraConexion();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            con.cierraConexion();
+        }
+    }
+
+    public void eliminar_registro(
+            String id_detins,
+            String cla_ins,
+            String lote,
+            String caducidad,
+            String fec_fab,
+            String id_fab,
+            String id_sec,
+            String id_ubi,
+            String cant,
+            String cant_caja,
+            String usuario
+    ) throws SQLException {
+        try {
+            con.ejecuta("update det_insumo set status = '0', cant='0' where id_detins = '" + id_detins + "'");
+            con.ejecuta("insert into registro values( '0','" + this.id_usu(usuario) + "', '" + id_detins + "','" + lote + "','" + caducidad + "','" + fec_fab + "','" + id_fab + "','" + id_sec + "','" + id_ubi + "','" + cant + "','" + cant_caja + "','ELIMINACION',NOW() )");
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             con.cierraConexion();
         }

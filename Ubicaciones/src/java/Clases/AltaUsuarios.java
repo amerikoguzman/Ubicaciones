@@ -35,4 +35,23 @@ public class AltaUsuarios {
     public boolean valida_pass(String pass, String pass2) {
         return pass.equals(pass2);
     }
+    
+    public void elimina_usuario(String id_usu) throws SQLException{
+        try{
+            System.out.println("update usuarios set status = '0' where id_usu = '"+id_usu+"'");
+            con.ejecuta("update usuarios set status = '0' where id_usu = '"+id_usu+"'");
+        }catch (SQLException ex) {
+            con.cierraConexion();
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void modifica_usuario(String user, String pass, String pass2, String rol) throws SQLException{
+        try{
+            con.ejecuta("update usuarios set pass = PASSWORD('"+pass+"'), rol = '"+rol+"' where id_usu='"+user+"' ");
+        }catch (SQLException ex) {
+            con.cierraConexion();
+            System.out.println(ex.getMessage());
+        }
+    }
 }

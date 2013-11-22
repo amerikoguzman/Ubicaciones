@@ -3,8 +3,22 @@
     Created on : 16/11/2013, 04:33:16 PM
     Author     : Americo
 --%>
-
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Clases.*" %>
+
+<%
+
+    HttpSession sesion = request.getSession();
+    String usua = "";
+    if (sesion.getAttribute("usuario") != null) {
+        usua = (String) sesion.getAttribute("usuario");
+    } else {
+        response.sendRedirect("index.jsp");
+    }
+    ConectionDB con = new ConectionDB();
+    Consultas consulta = new Consultas();
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,40 +44,41 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Project name</a>
+                        <a class="navbar-brand" href="#">Sistemas de Ubicaciones</a>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li class="active"><a href="main_menu.jsp">Consultas</a></li>
+                            <li><a href="catalogo.jsp" target="_blank">Catálogo</a></li>
+                                <%
+                                    if (!sesion.getAttribute("rol").equals("1")) {
+                                %>
+                            <li><a href="agregar_clave.jsp">Agregar una Clave al Inventario</a></li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Nav header</li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li><a href="#">One more separated link</a></li>
+                                    <li><a href="alta_usuarios.jsp">Altas</a></li>
+                                    <li><a href="modi_usuario.jsp">Modificaciones</a></li>
                                 </ul>
                             </li>
+                            <%
+                                }
+                            %>
+
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="../navbar/">Default</a></li>
-                            <li><a href="../navbar-static-top/">Static top</a></li>
-                            <li class="active"><a href="./">Fixed top</a></li>
+                            <li><a href=""><span class="glyphicon glyphicon-user"></span> <%=usua%></a></li>
+                            <li class="active"><a href="index.jsp"><span class="glyphicon glyphicon-log-out"></span></a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
-            
+
             <form class="jumbotron" action="Principal" method="POST">
                 <table >
                     <tr>
                         <td>
-                          Usuario  
+                            Usuario  
                         </td>
                         <td>
                             <input type="text" class="form-control" name="user">
@@ -71,7 +86,7 @@
                     </tr>
                     <tr>
                         <td>
-                          Contraseña  
+                            Contraseña  
                         </td>
                         <td>
                             <input type="password" class="form-control" name="pass">
@@ -79,7 +94,7 @@
                     </tr>
                     <tr>
                         <td>
-                          Confirme Contraseña  
+                            Confirme Contraseña  
                         </td>
                         <td>
                             <input type="password" class="form-control" name="pass2">
@@ -87,17 +102,19 @@
                     </tr>
                     <tr>
                         <td>
-                          Seleccione Rol
+                            Seleccione Rol
                         </td>
                         <td>
                             <select class="form-control" name="rol">
-                                <option value = '5'>Administrador</option>
+                                <option value = '3'>Administrador</option>
+                                <option value = '2'>Altas y Bajas</option>
+                                <option value = '1'>Consultor</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            
+
                         </td>
                         <td>
                             <button class="btn btn-primary btn-block" value="100" name="submit">Guardar</button>

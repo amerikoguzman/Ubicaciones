@@ -31,11 +31,11 @@
         <link rel="stylesheet" href="css/cupertino/jquery-ui-1.10.3.custom.css" />
         <link href="css/navbar-fixed-top.css" rel="stylesheet">
         <!---->
-        <title>Alta de Usuarios</title>
+        <title>Modificaciones de Usuarios</title>
     </head>
     <body>
         <div class="container">
-            <h1>Alta de Usuarios</h1>
+            <h1>Modificaciones de Usuarios</h1>
             <div class="navbar navbar-default">
                 <div class="container">
                     <div class="navbar-header">
@@ -74,39 +74,29 @@
                 </div>
             </div>
 
-            <form class="jumbotron" action="Principal" method="POST">
-                <table >
+            <form class="" name="form1" action="Principal" method="POST" onsubmit="return compara_pass();">
+                <table class="table table-bordered">
                     <tr>
                         <td>
-                            Usuario  
+                            Usuario
+                            <select class="form-control" name="usuario">
+                                <%
+                                    try {
+                                        con.conectar();
+                                        ResultSet rset = con.consulta(consulta.qry_eliminar_usuarios());
+                                        while (rset.next()) {
+                                            out.println("<option value = '"+rset.getString("id_usu")+"'>"+rset.getString("user")+"</option>");
+                                        }
+                                        con.cierraConexion();
+                                    } catch (Exception e) {
+                                    }
+                                %>
+                            </select>
                         </td>
                         <td>
-                            <input type="text" class="form-control" name="user">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Contraseña  
-                        </td>
-                        <td>
-                            <input type="password" class="form-control" name="pass">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Confirme Contraseña  
-                        </td>
-                        <td>
-                            <input type="password" class="form-control" name="pass2">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Seleccione Rol
-                        </td>
-                        <td>
+                            Rol
                             <select class="form-control" name="rol">
-                                <option value = '3'>Administrador</option>
+                                <option value = '5'>Administrador</option>
                                 <option value = '2'>Altas y Bajas</option>
                                 <option value = '1'>Consultor</option>
                             </select>
@@ -114,10 +104,22 @@
                     </tr>
                     <tr>
                         <td>
-
+                            Contraseña:
+                            <input type="password" class="form-control" name="pass">
                         </td>
                         <td>
-                            <button class="btn btn-primary btn-block" value="100" name="submit">Guardar</button>
+                            Confirmar Contraseña:
+                            <input type="password" class="form-control" name="pass2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="btn btn-primary btn-block" value="102" name="submit">Actualizar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="btn btn-danger btn-block" value="101" name="submit">Eliminar</button>
                         </td>
                     </tr>
                 </table>
@@ -130,3 +132,14 @@
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/jquery-ui-1.10.3.custom.js"></script>
+<script type="text/javascript">
+    function compara_pass() {
+        p1 = document.form1.pass.value;
+        p2 = document.form1.pass2.value;
+        if (p1!=p2) {
+            window.alert("Contraseñas Distintas");
+            return false;
+        }
+        return true;
+    }
+</script>
