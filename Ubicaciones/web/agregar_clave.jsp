@@ -131,19 +131,20 @@
                     </tr>
                     <tr>
                         <td width="13%" colspan="1">
-                            Origen<input type="text" class="form-control" placeholder="Origen" value = "<%=origen%>" name = "origen" id = "origen" readonly="">
+                            Origen<input type="text" class="form-control" placeholder="Origen" value = "<%=origen%>" name = "origen" id = "origen" readonly>
                         </td>
-                        <td width="12%" colspan="1">
-                            Clave<input type="text" class="form-control" placeholder="Clave" value = "<%=clave%>" name = "clave" id = "clave" readonly="">
+                        <td width="20%" colspan="1">
+                            Clave<input type="text" class="form-control" placeholder="Clave" value = "<%=clave%>" name = "clave" id = "clave" readonly>
                         </td>
                         <td colspan="6">
-                            Descripción<input type="text" class="form-control" placeholder="Descripción" value = "<%=desc%>" name = "descripcion" id = "descripcion" readonly="">
+                            Descripción
+                            <textarea  class="form-control" placeholder="Descripción" name = "descripcion" id = "descripcion" readonly><%=desc%></textarea>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             Sector
-                            <select class="form-control" name = "sector">
+                              <select class="form-control" name = "sector">
                                 <%
                                     try {
                                         con.conectar();
@@ -161,10 +162,10 @@
                         <td colspan="2">
                             Lote
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-7">
                                     <input type="text" class="form-control" name="lote" id ="lote" value="-">
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <select class="form-control" id ="lote2" name="lote2" onChange="cambia_lote();">
                                         <option value = "-">-</option>
                                         <%
@@ -187,7 +188,7 @@
                         <td colspan="2">
                             Caducidad<input type="text" class="form-control" id ="caducidad" name="caducidad">
                         </td>
-                        <td width="23%" colspan="2">
+                        <td width="18%" colspan="2">
                             Ubicación
                             <select class="form-control" name = "ubicacion">
                                 <%
@@ -216,7 +217,7 @@
                             Resto<input type="text" class="form-control" value = "0" name = "resto" id ="resto"  onkeyup="sumar();">
                         </td>
                         <td colspan="2">
-                            Cantidad<input type="text" class="form-control" value = "0" name = "cantidad" readonly="" id ="cantidad" onkeyup="sumar();">
+                            Cantidad<input type="text" class="form-control" value = "0" name = "cantidad" readonly id ="cantidad" onkeyup="sumar();">
                         </td>
                     </tr>
                     <tr>
@@ -285,11 +286,7 @@
             </table>
         </div>
         <br><br><br>
-        <div class="navbar navbar-fixed-bottom navbar-inverse">
-            <div class="text-center text-muted">
-                GNK Logística <span class="glyphicon glyphicon-registration-mark"></span>
-            </div>
-        </div>
+        
     </body>
 </html>
 <!-- 
