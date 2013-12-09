@@ -177,15 +177,28 @@
                     <td><%=rset.getString("des_ubi")%></td>
                     <td><%=rset.getString("sector_des")%></td>
                     <%
-                        int cant = Integer.parseInt(rset.getString("cant"));
-                        int cant_caj = Integer.parseInt(rset.getString("cant_caja"));
-                        int caj = cant / cant_caj;
-                        int resto = cant % cant_caj;
+                        int cant = 0;
+                        int cant_caj = 0;
+                        int caj = 0;
+                        int resto =0;
                         int caj_t = 0;
-                        if (resto > 0) {
-                            caj_t = caj + 1;
-                        } else {
-                            caj_t = caj;
+                        try {
+                            cant = Integer.parseInt(rset.getString("cant"));
+                            cant_caj = Integer.parseInt(rset.getString("cant_caja"));
+                            caj = cant / cant_caj;
+                            resto = cant % cant_caj;
+                            caj_t = 0;
+                            if (resto > 0) {
+                                caj_t = caj + 1;
+                            } else {
+                                caj_t = caj;
+                            }
+                        } catch (Exception e) {
+                            cant = Integer.parseInt(rset.getString("cant"));
+                            cant_caj = Integer.parseInt(rset.getString("cant_caja"));
+                            caj =0;
+                            resto = Integer.parseInt(rset.getString("cant"));
+                            caj_t = 0;
                         }
                     %>
                     <td><%=caj%></td>

@@ -17,7 +17,7 @@
     String usua = "";
     if (sesion.getAttribute("usuario") != null) {
         usua = (String) sesion.getAttribute("usuario");
-        if (sesion.getAttribute("usuario").equals("1")){
+        if (sesion.getAttribute("usuario").equals("1")) {
             response.sendRedirect("main_menu.jsp");
         }
     } else {
@@ -206,9 +206,15 @@
                     <%
                         int caj = Integer.parseInt(cajas);
                         int can_caj = Integer.parseInt(cant_cajas);
-
-                        int icajas = caj / can_caj;
-                        int resto = caj % can_caj;
+                        int icajas = 0;
+                        int resto = 0;
+                        try {
+                            icajas = caj / can_caj;
+                            resto = caj % can_caj;
+                        } catch (Exception e) {
+                            icajas=0;
+                            resto=Integer.parseInt(cajas);
+                        }
                     %>
                     <tr>
                         <td colspan="2">

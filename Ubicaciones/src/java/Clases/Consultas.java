@@ -81,8 +81,8 @@ public class Consultas {
                 + "di.id_ubi = u.id_ubi AND\n"
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
-                + "r.idUsuario = us.id_usu AND\n"
-                + "di.status != '0'\n"
+                + "r.idUsuario = us.id_usu and di.status !='0'\n"
+                + "group by di.id_detins\n"
                 + "order by u.des_ubi;";
         System.out.println(query);
         return query;
@@ -96,8 +96,8 @@ public class Consultas {
                 + "di.id_ubi = u.id_ubi AND\n"
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
-                + "r.idUsuario = us.id_usu AND u.id_ubi = '" + ubicacion + "' and\n"
-                + "di.status != '0'\n"
+                + "r.idUsuario = us.id_usu AND u.id_ubi = '" + ubicacion + "' and di.status !='0'\n"
+                + "group by di.id_detins\n"
                 + "order by u.des_ubi;";
         System.out.println(query);
         return query;
@@ -111,8 +111,8 @@ public class Consultas {
                 + "di.id_ubi = u.id_ubi AND\n"
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
-                + "r.idUsuario = us.id_usu AND di.cla_ins = '" + clave + "' and\n"
-                + "di.status != '0'\n"
+                + "r.idUsuario = us.id_usu AND di.cla_ins = '" + clave + "' and di.status !='0'\n"
+                + "group by di.id_detins\n"
                 + "order by u.des_ubi;";
         System.out.println(query);
         return query;
@@ -126,8 +126,8 @@ public class Consultas {
                 + "di.id_ubi = u.id_ubi AND\n"
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
-                + "r.idUsuario = us.id_usu AND di.lote = '" + lote + "' and\n"
-                + "di.status != '0'\n"
+                + "r.idUsuario = us.id_usu AND di.lote = '" + lote + "' and di.status !='0'\n"
+                + "group by di.id_detins\n"
                 + "order by u.des_ubi;";
         System.out.println(query);
         return query;
@@ -142,7 +142,7 @@ public class Consultas {
                 + "di.id_sec = s.id_sector and\n"
                 + "di.id_detins = r.id_detins AND\n"
                 + "r.idUsuario = us.id_usu AND u.id_ubi = '1000' and\n"
-                + "di.status != '0'\n"
+                + "di.status != '0' and di.status !='0'\n"
                 + "order by u.des_ubi;";
         System.out.println(query);
         return query;
