@@ -132,7 +132,7 @@
                             Origen<input type="text" class="form-control" placeholder="Origen" value = "<%=ori%>" name = "origen" id = "origen" readonly="">
                         </td>
                         <td width="12%" colspan="1">
-                            Clave<input type="text" class="form-control" placeholder="Clave" value = "<%=clave%>" name = "clave" id = "clave" readonly="">
+                            Clave<input type="text" class="form-control" placeholder="Clave" value = "<%=clave%>" name = "clave" id = "clave">
                         </td>
                         <td colspan="6">
                             Descripción<input type="text" class="form-control" placeholder="Descripción" value = "<%=descr%>" name = "descripcion" id = "descripcion" readonly="">

@@ -33,6 +33,24 @@
     } catch (Exception e) {
         submit = "";
     }
+    
+    try{
+        if(request.getParameter("alta").equals("1")){
+            %>
+            <script>alert("Alta Correcta")</script>
+            <%
+        }
+    }catch(Exception e){
+    }
+    
+    try{
+        if(request.getParameter("alta").equals("0")){
+            %>
+            <script>alert("Alta Incorrecta")</script>
+            <%
+        }
+    }catch(Exception e){
+    }
 %>
 
 <!DOCTYPE html>

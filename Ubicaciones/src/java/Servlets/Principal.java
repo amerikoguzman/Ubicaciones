@@ -74,6 +74,7 @@ public class Principal extends HttpServlet {
                     }
                     break;
                 case 501://******************Altas de clave********************
+                    int ban=0;
                     try {
                         inven.insertar_registro(
                                 request.getParameter("id_detins"),
@@ -87,10 +88,11 @@ public class Principal extends HttpServlet {
                                 request.getParameter("cantidad"),
                                 request.getParameter("piezas"),
                                 (String) sesion.getAttribute("usuario"));
+                        ban=1;
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
-                    response.sendRedirect("agregar_clave.jsp");
+                    response.sendRedirect("agregar_clave.jsp?alta="+ban);
                     break;
                 case 502://********************Modificar clave********************
                     try {
