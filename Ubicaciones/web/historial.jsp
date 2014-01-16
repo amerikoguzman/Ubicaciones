@@ -246,7 +246,10 @@
                     <%
                     int caj=Integer.parseInt(rset.getString(4));
                     int cant_c=Integer.parseInt(rset.getString(5));
-                    int resto = caj%cant_c;
+                    int resto=0;
+                    try{
+                    resto = caj%cant_c;
+                    }catch(Exception e){resto=0;}
                     int caj_c=cant_c;
                     if (resto>0){
                         caj_c+=1;

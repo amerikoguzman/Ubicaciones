@@ -115,7 +115,7 @@
                 </div>
             </div>
             <h4>INGRESE LOS DATOS</h4>
-            <form method="post" name="form_agre1">
+            <form method="post" name="form_agre1" action="agregar_clave.jsp">
                 <table>
                     <tr>
                         <td>Clave</td>
@@ -277,9 +277,16 @@
                     <%
                         int cant = Integer.parseInt(rset.getString("di.cant"));
                         int cant_caja = Integer.parseInt(rset.getString("di.cant_caja"));
-
-                        int cajas = cant / cant_caja;
-                        int resto = cant % cant_caja;
+                        
+                        int cajas=0;
+                        int resto=0;
+                        
+                        try{
+                        cajas = cant / cant_caja;
+                        }catch(Exception e){cajas=0;};
+                        try{
+                        resto = cant % cant_caja;
+                        }catch(Exception e){resto=0;};
                         int cajas_tot = 0;
                         if (resto > 0) {
                             cajas_tot = cajas + 1;
