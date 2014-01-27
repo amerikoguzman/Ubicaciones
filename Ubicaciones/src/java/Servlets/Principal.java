@@ -42,6 +42,7 @@ public class Principal extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
         try {
             response.setContentType("text/html;charset=UTF-8");
 
@@ -74,7 +75,7 @@ public class Principal extends HttpServlet {
                     }
                     break;
                 case 501://******************Altas de clave********************
-                    int ban=0;
+                    int ban = 0;
                     try {
                         inven.insertar_registro(
                                 request.getParameter("id_detins"),
@@ -88,11 +89,11 @@ public class Principal extends HttpServlet {
                                 request.getParameter("cantidad"),
                                 request.getParameter("piezas"),
                                 (String) sesion.getAttribute("usuario"));
-                        ban=1;
+                        ban = 1;
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
-                    response.sendRedirect("agregar_clave.jsp?alta="+ban);
+                    response.sendRedirect("agregar_clave.jsp?alta=" + ban);
                     break;
                 case 502://********************Modificar clave********************
                     try {
@@ -111,7 +112,8 @@ public class Principal extends HttpServlet {
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
-                    response.sendRedirect("editar_clave.jsp?id_detins=" + request.getParameter("id_detins"));
+                    out.println("<script>alert('Modificación Correcta')</script>");
+                    out.println("<script>window.location='editar_clave.jsp?id_detins=" + request.getParameter("id_detins")+"'</script>");
                     break;
                 case 503://********************Eliminar clave********************
                     System.out.println("Eliminar");
@@ -131,14 +133,14 @@ public class Principal extends HttpServlet {
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
-                    response.sendRedirect("main_menu.jsp");
+                    out.println("<script>alert('Dato eliminado')</script>");
+                    out.println("<script>window.location='main_menu.jsp'</script>");
                     break;
                 case 600://********************modificacion de usuarios********************
                     cb.actualza_CB(request.getParameter("id"), request.getParameter("cb"));
-                    response.sendRedirect("agregar_codigo.jsp?id="+request.getParameter("id"));
+                    response.sendRedirect("agregar_codigo.jsp?id=" + request.getParameter("id"));
                     break;
             }
-            PrintWriter out = response.getWriter();
             try {
             } finally {
                 out.close();

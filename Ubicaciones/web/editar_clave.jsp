@@ -237,7 +237,7 @@
                     </tr>
                     <tr>
                         <td colspan="8">
-                            <button type="submit" value = "503" name = "submit" class="btn btn-danger btn-block">Eliminar</button>
+                            <button type="submit" value = "503" name = "submit" class="btn btn-danger btn-block" onclick="return confirm('Esta seguro de eliminarla?')">Eliminar</button>
                         </td>
                     </tr>
                 </table>

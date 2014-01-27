@@ -55,14 +55,14 @@
                 <select name="user" class="form-control">
                     <%
                         try {
-con.conectar();
-ResultSet rset = con.consulta(consulta.qry_eliminar_usuarios());
-while(rset.next()){
-    out.println("<option value = "+rset.getString("user")+">"+rset.getString("user")+"</option>");
-}
-con.cierraConexion();
+                            con.conectar();
+                            ResultSet rset = con.consulta(consulta.qry_eliminar_usuarios());
+                            while (rset.next()) {
+                                out.println("<option value = " + rset.getString("user") + ">" + rset.getString("user") + "</option>");
+                            }
+                            con.cierraConexion();
                         } catch (Exception e) {
-con.cierraConexion();
+                            con.cierraConexion();
                         }
                     %>
                 </select>

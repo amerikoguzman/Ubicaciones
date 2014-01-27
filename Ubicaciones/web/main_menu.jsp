@@ -120,6 +120,11 @@
                             <button class="btn btn-block btn-success" name="submit" value = "405">Todos</button>
                         </form>
                     </td>
+                    <td>
+                        <form method="post">
+                            <a href="exportar_existencias.jsp" class="btn btn-link">Exportar Existencias</a>
+                        </form>
+                    </td>
                 </tr>
             </table>
             <table class="table table-bordered table-bordered">
