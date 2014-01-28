@@ -19,7 +19,7 @@
 %>
 <% java.util.Calendar currDate = new java.util.GregorianCalendar();
     Class.forName("org.gjt.mm.mysql.Driver");
-    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ubicaciones");
+    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ubicaciones", "root", "");
     // add 1 to month because Calendar's months start at 0, not 1
 %>
 <%
