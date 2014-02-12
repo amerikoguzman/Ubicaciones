@@ -41,7 +41,7 @@ public class ConectionDB {
     public ConectionDB() {
         //poner los datos apropiados
         this.usuario = "root";
-        this.clave = "";
+        this.clave = "eve9397";
         this.url = "jdbc:mysql://localhost:3306/ubicaciones";
         this.driverClassName = "org.gjt.mm.mysql.Driver";
     }
@@ -119,10 +119,8 @@ public class ConectionDB {
 
     // -------------------
     public void ejecuta(String query) throws SQLException {
-        conectar();
         this.estancia = (Statement) conn.createStatement();
         estancia.executeUpdate(query);
-        cierraConexion();
         //this.conn.commit();
     }
 
